@@ -1,506 +1,247 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>אירוע יוקרתי - הזמנה מיוחדת</title>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Heebo', sans-serif;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-            color: #ffffff;
-            line-height: 1.6;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-
-        .nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.9);
-            padding: 0.5rem 2rem;
-            z-index: 1000;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .nav-links a {
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 1.1rem;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: #d4af37;
-        }
-
-        .participant-counter {
-            background: rgba(212, 175, 55, 0.1);
-            backdrop-filter: blur(1px);
-            border-radius: 15px;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            padding: 1.5rem;
-            text-align: center;
-            margin: 2rem auto;
-            max-width: 300px;
-            animation: pulse 2s infinite;
-        }
-
-        .participant-counter h3 {
-            color: #d4af37;
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .participant-number {
-            font-size: 3.5rem;
-            color: #ffffff;
-            font-weight: bold;
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        @media (max-width: 768px) {
-            .participant-counter {
-                margin: 1rem auto;
-                padding: 1rem;
-            }
-
-            .participant-number {
-                font-size: 2.8rem;
-            }
-        }
-
-        section {
-            min-height: 100vh;
-            padding: 6rem 2rem 2rem;
-            position: relative;
-        }
-
-        .hero {
-            height: 100vh;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url('concert2.avif') center/cover;
-            background-attachment: fixed;
-            padding: 80px 0 0;
-            animation: gradientShift 10s ease infinite;
-        }
-
-        .hero-content {
-            z-index: 2;
-            padding: 2rem;
-            opacity: 1;
-            transition: opacity 0.3s ease;
-        }
-
-        .hero-content.hidden {
-            opacity: 0;
-        }
-
-        .registration-form {
-            display: none;
-            max-width: 400px;
-            margin: 2rem auto;
-            padding: 2rem;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 15px;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            backdrop-filter: blur(10px);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .registration-form.form-visible {
-            display: block;
-        }
-
-        h1 {
-            font-size: 4.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(to right, #d4af37, #ffd700);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            letter-spacing: 2px;
-            font-weight: 700;
-            animation: titleGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes titleGlow {
-            0%, 100% { text-shadow: 2px 2px 4px rgba(212,175,55,0.3); }
-            50% { text-shadow: 2px 2px 8px rgba(212,175,55,0.5); }
-        }
-
-        .subtitle {
-            font-size: 1.8rem;
-            margin-bottom: 2rem;
-            color: rgba(255,255,255,0.9);
-            font-weight: 300;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        }
-
-        .countdown {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .countdown-item {
-            background: rgba(212, 175, 55, 0.1);
-            padding: 1rem;
-            border-radius: 10px;
-            min-width: 100px;
-        }
-
-        .countdown-number {
-            font-size: 2.5rem;
-            color: #d4af37;
-        }
-
-        .countdown-label {
-            font-size: 0.9rem;
-            color: #ffffff;
-        }
-
-        .event-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .detail-box {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            padding: 2rem;
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .detail-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px 0 rgba(212, 175, 55, 0.1);
-        }
-
-        .detail-box i {
-            font-size: 2.5rem;
-            color: #d4af37;
-            margin-bottom: 1rem;
-        }
-
-        .detail-box h3 {
-            color: #d4af37;
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-
-        .registration-form {
-            max-width: 320px;
-            margin: 1rem auto;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
-            backdrop-filter: blur(8px);
-            border-radius: 12px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            aspect-ratio: 1/1.1;
-        }
-
-        .form-group {
-            margin-bottom: 0.6rem;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 0.5rem 0.7rem;
-            margin-top: 0.2rem;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 6px;
-            color: #ffffff;
-            outline: none;
-        }
-
-        input:focus, textarea:focus {
-            border-color: rgba(212, 175, 55, 0.4);
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        button {
-            margin-top: 0.6rem;
-            padding: 0.5rem 1.2rem;
-            width: 100%;
-            background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
-            border: none;
-            border-radius: 6px;
-            color: #000;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-        }
-
-        .contact {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-        }
-
-        @media (max-width: 768px) {
-            .nav {
-                padding: 0.5rem;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                background: rgba(0, 0, 0, 0.9);
-                z-index: 1000;
-            }
-
-            .nav-links {
-                flex-direction: row;
-                justify-content: center;
-                gap: 1rem;
-                padding: 0.5rem;
-            }
-
-            .nav-links a {
-                font-size: 0.9rem;
-                padding: 0.3rem 0.6rem;
-            }
-
-            .hero-content {
-                opacity: 1 !important;
-            }
-
-            .countdown, .register-btn {
-                position: fixed;
-                z-index: 999;
-            }
-
-            .countdown {
-                bottom: 80px;
-                left: 0;
-                right: 0;
-                background: rgba(0, 0, 0, 0.8);
-                padding: 0.5rem;
-                margin: 0;
-                justify-content: center;
-            }
-
-            .register-btn {
-                bottom: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: auto;
-                padding: 0.8rem 2rem;
-            }
-        }
-            .nav-links {
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-around;
-                gap: 1rem;
-                width: 100%;
-                padding: 0 1rem;
-            }
-
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .countdown {
-                flex-wrap: wrap;
-                gap: 1rem;
-            }
-
-            .countdown-item {
-                min-width: 80px;
-            }
-
-            .gallery-item i {
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                color: #ffffff;
-                background: rgba(0, 0, 0, 0.5);
-                padding: 10px;
-                border-radius: 50%;
-                z-index: 1;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>אירוע יוקרתי - הזמנה מיוחדת</title>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Heebo', sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+      color: white;
+      overflow-x: hidden;
+    }
+    header, section {
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+    nav {
+      background: rgba(0, 0, 0, 0.9);
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+    .hero {
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('concert2.avif') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      background: linear-gradient(to right, #d4af37, #ffd700);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+    }
+    .participant-counter {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(212,175,55,0.1);
+      border: 1px solid rgba(212,175,55,0.3);
+      border-radius: 10px;
+    }
+    .participant-number {
+      font-size: 2rem;
+      color: #d4af37;
+      margin-top: 0.5rem;
+    }
+    .countdown {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .countdown-item {
+      background: rgba(212,175,55,0.1);
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+    }
+    .countdown-number {
+      font-size: 1.5rem;
+      color: #ffd700;
+    }
+    .registration-form {
+      background: rgba(0,0,0,0.6);
+      padding: 1rem;
+      border-radius: 10px;
+      margin-top: 1rem;
+      max-width: 100%;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    input, textarea {
+      padding: 0.5rem;
+      border: 1px solid rgba(212,175,55,0.3);
+      border-radius: 5px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+    }
+    button {
+      background: linear-gradient(to right, #d4af37, #ffd700);
+      color: black;
+      font-weight: bold;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .event-details {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .detail-box {
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 1rem;
+    }
+    .detail-box i {
+      font-size: 1.5rem;
+      color: #d4af37;
+    }
+    footer {
+      background: rgba(0,0,0,0.7);
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+  </style>
 </head>
 <body>
-    <div class="hero">
-        <div class="hero-content">
-            <h1>אירוע השנה</h1>
-            <p class="subtitle">הצטרפו אלינו לחוויה בלתי נשכחת</p>
-            
-            <div class="participant-counter">
-                <h3>כבר נרשמו לאירוע</h3>
-                <div id="participantCount" class="participant-number">27</div>
-            </div>
+  <nav>
+    <ul>
+      <li><a href="#hero">ראשי</a></li>
+      <li><a href="#about">אודות</a></li>
+      <li><a href="#contact">צור קשר</a></li>
+    </ul>
+  </nav>
 
-            <div class="countdown">
-                <div class="countdown-item">
-                    <div class="countdown-number" id="days">00</div>
-                    <div class="countdown-label">ימים</div>
-                </div>
-                <div class="countdown-item">
-                    <div class="countdown-number" id="hours">00</div>
-                    <div class="countdown-label">שעות</div>
-                </div>
-                <div class="countdown-item">
-                    <div class="countdown-number" id="minutes">00</div>
-                    <div class="countdown-label">דקות</div>
-                </div>
-                <div class="countdown-item">
-                    <div class="countdown-number" id="seconds">00</div>
-                    <div class="countdown-label">שניות</div>
-                </div>
-            </div>
-
-            <button class="register-btn" onclick="toggleForm()">הרשם עכשיו</button>
-            
-            <div class="registration-form" id="registrationForm">
-              <form id="registrationFormElement">
-                <div class="form-group">
-                  <label for="name">שם מלא:</label>
-                  <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                  <label for="phone">טלפון:</label>
-                  <input type="tel" id="phone" name="phone" required>
-                </div>
-                <div class="form-group">
-                  <label for="guests">מספר אורחים:</label>
-                  <input type="number" id="guests" name="guests" min="1" required>
-                </div>
-                <div class="form-group">
-                  <label for="notes">הערות:</label>
-                  <textarea id="notes" name="notes" rows="3"></textarea>
-                </div>
-                <button type="submit" class="submit-btn">שלח הרשמה</button>
-              </form>
-            </div>
-
-        </div>
+  <header class="hero" id="hero">
+    <h1>אירוע השנה</h1>
+    <p class="subtitle">הצטרפו אלינו לחוויה בלתי נשכחת</p>
+    <div class="participant-counter">
+      <h3>כבר נרשמו</h3>
+      <div class="participant-number" id="participantCount">27</div>
     </div>
-
-    <nav class="nav">
-        <ul class="nav-links">
-            <li><a href="#hero">ראשי</a></li>
-            <li><a href="#about">אודות</a></li>
-            <li><a href="#contact">צור קשר</a></li>
-        </ul>
-    </nav>
-
-    <section id="about" class="about">
-        <div class="about-content">
-            <h2>אודות האירוע</h2>
-            <p>הצטרפו אלינו לערב מרהיב של תרבות, אמנות ובידור. אירוע השנה שלנו מביא את מיטב האמנים והיוצרים למקום אחד, ליצירת חוויה בלתי נשכחת.</p>
-            
-            <div class="event-details">
-                <div class="detail-box">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <h3>מיקום</h3>
-                    <p>אולם האירועים המלכותי</p>
-                    <p>רחוב הזהב 123, תל אביב</p>
-                </div>
-                <div class="detail-box">
-                    <i class="fas fa-calendar-alt"></i>
-                    <h3>תאריך ושעה</h3>
-                    <p>31 בדצמבר 2024</p>
-                    <p>20:00 - 02:00</p>
-                </div>
-                <div class="detail-box">
-                    <i class="fas fa-tshirt"></i>
-                    <h3>קוד לבוש</h3>
-                    <p>אלגנט</p>
-                    <p>שחור ולבן בלבד</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="contact">
-        <h2>צור קשר</h2>
-        <div class="contact-info">
-            <div class="contact-item">
-                <i class="fas fa-phone"></i>
-                <p>טלפון</p>
-                <p>03-1234567</p>
-            </div>
-            <div class="contact-item">
-                <i class="fas fa-envelope"></i>
-                <p>אימייל</p>
-                <p>info@event2024.com</p>
-            </div>
-            <div class="contact-item">
-                <i class="fas fa-clock"></i>
-                <p>שעות פעילות</p>
-                <p>א'-ה' 09:00-17:00</p>
-            </div>
-        </div>
-    </section>
-
-    <div id="thankYouModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2>תודה על ההרשמה!</h2>
-            <p>בזכותך יהיה עוד קלאסה אזול לערב!</p>
-            <p>נציגנו יצרו עמך קשר בהקדם.</p>
-            <p>לידיעתך, אין להתחרט - נגעת נסעת.</p>
-        </div>
+    <div class="countdown">
+      <div class="countdown-item"><div class="countdown-number" id="days">00</div><div>ימים</div></div>
+      <div class="countdown-item"><div class="countdown-number" id="hours">00</div><div>שעות</div></div>
+      <div class="countdown-item"><div class="countdown-number" id="minutes">00</div><div>דקות</div></div>
+      <div class="countdown-item"><div class="countdown-number" id="seconds">00</div><div>שניות</div></div>
     </div>
+    <div class="registration-form">
+      <form id="registrationFormElement">
+        <input type="text" name="name" placeholder="שם מלא" required>
+        <input type="tel" name="phone" placeholder="טלפון" required>
+        <input type="number" name="guests" placeholder="מס'פ אורחים" required>
+        <textarea name="notes" rows="3" placeholder="הערות"></textarea>
+        <button type="submit">שלח</button>
+      </form>
+    </div>
+  </header>
 
-    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+<section id="about" style="text-align: right; direction: rtl; padding: 2rem 1rem;">
+  <h2 style="margin-bottom: 1rem;">אודות</h2>
+
+  <p>
+    בלב ליבו של <strong>יום העצמאות</strong>, נצא יחד למסע אל תוך לילה קסום וחד-פעמי,<br>
+    בווילה בסביון. 🌴🌴
+  </p>
+
+  <p>
+    האווירה תהיה <strong>אקסקלוסיבית</strong>, למוזמנים בלבד, עם קהל בוגר, מרשים ולבוש חגיגי.
+  </p>
+
+  <p>
+    מספר המקומות <strong>מוגבל ביותר</strong> – מהרו להירשם!
+  </p>
+
+  <p>
+    האירוע מאושר ומאובטח ע״י כל הגורמים הרלוונטיים (אני 😎).
+  </p>
+
+  <p>
+    במידה ואתם מתכננים להגיע, אנא מלאו את הפרטים בהמשך כדי שנוכל להיערך בהתאם
+    <strong>לטירוף שמצפה לנו</strong>.
+  </p>
+
+  <p>
+    אם אתם מגיעים עם חברים – <strong>כל אחד</strong> צריך למלא את הטופס בנפרד.
+  </p>
+
+  <p>
+    לא צריך להרחיב במילים – כבר כולם יודעים שאנחנו עושים את זה <strong>בצורה הטובה ביותר</strong>.
+  </p>
+
+  <p>
+    אבל הפעם – שוברים את תקרת הזכוכית ועולים לגבהים שעוד לא הכרתם. 🚀
+  </p>
+
+  <p style="margin-top: 1rem;">
+    לכל שאלה – <strong>מענה בוואטסאפ</strong>:<br>
+    ניתן גם למלא טופס כשאלה בהערות ולהזין מס' טלפון ומגיעים 0.
+  </p>
+
+    <div class="event-details">
+      <div class="detail-box">
+        <i class="fas fa-map-marker-alt"></i>
+        <p>סביון</p>
+        <p>מיקום מדוייק יישלח בהמשך</p>
+      </div>
+      <div class="detail-box">
+        <i class="fas fa-calendar-alt"></i>
+        <p>30 אפריל 2025</p>
+        <p>20:00 - בהצלחה לנו</p>
+      </div>
+      <div class="detail-box">
+        <i class="fas fa-tshirt"></i>
+        <p>קוד לבוש: אלגנט</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>צור קשר</h2>
+    <p><i class="fas fa-phone"></i> 03-1234567</p>
+    <p><i class="fas fa-envelope"></i> info@event2025.com</p>
+  </section>
+
+  <footer>
+    <p>כל הזכויוות שמורות יא בני זונות 2025</p>
+  </footer>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
 <script>
   // Initialize Fancybox
   Fancybox.bind("[data-fancybox]", {});
@@ -588,51 +329,191 @@
         });
 
         const resultText = await response.text();
-        alert("✅ נרשמת בהצלחה!\n" + resultText);
+        // במקום alert("נרשמת בהצלחה")
+        showRoast(); // מציג את המשפט הראשון
+        document.getElementById("successModal").style.display = "flex";
+
+
         form.reset();
       } catch (error) {
         console.error("Error submitting form:", error);
         alert("❌ שגיאה בשליחה. נסה שוב מאוחר יותר.");
       }
+
+
+
     });
+
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
-  document.getElementById("registrationFormElement").addEventListener("submit", async function (event) {
-    event.preventDefault();
 
-    const form = event.target;
-    const formData = new FormData(form);
-    const data = {
-      name: formData.get("name"),
-      phone: formData.get("phone"),
-      guests: formData.get("guests"),
-      notes: formData.get("notes")
-    };
+<!-- Success Modal -->
+<div id="successModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9999; align-items: center; justify-content: center;">
+  <div style="background: white; color: black; padding: 2rem; border-radius: 12px; text-align: center; max-width: 90%; font-family: 'Heebo', sans-serif;">
+    <h2 style="color: green;">ההרשמה התקבלה ✅</h2>
+    <p id="roastLine" style="font-weight: bold; font-size: 1.2rem; margin-bottom: 1.5rem;">עיבדנו את זה, לצערנו אתה בפנים 😬</p>
+    <button
+      id="roastButton"
+      onclick="handleRoastClickExtra()"
+      style="background: red; color: white; border: none; padding: 0.6rem 1.2rem; font-weight: bold; border-radius: 8px; cursor: pointer;"
+    >
+      תן לי עוד עלבון 🔥
+    </button>
 
-    try {
-      const response = await fetch("https://script.google.com/macros/s/AKfycbwfNbUDiq6TyB6bl0HaEV2SAjYavv3PIYMNfI8Ax3Hokd8Mz-p7q2-s9oaF1H1v9Rx0/exec", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
+  </div>
+</div>
+<script>
+  // We'll track the user's name and how many times they've pressed the roast button
+  let userName = "";
+  let roastCount = 0;
 
-      const result = await response.json();
-      if (result.status === "success") {
-        alert("נרשמת בהצלחה!");
-        form.reset();
-      } else {
-        throw new Error(result.message);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("שגיאה בשליחה. נסה שוב מאוחר יותר.");
-    }
+  // Possible button texts (we'll cycle through them)
+  const roastButtonLabels = [
+    "שחרר לי עוד אחת ",
+    "פתח לי תתחת",
+    "אני אוהב בנים",
+    "תתעלל בי",
+    "תן לי עוד קטנה",
+    "תן אחת מהלב",
+    "תן אחד הצגה",
+    "שגר לי אחת לפנים",
+    "אגרוף לאף ",
+    "מי אתה יזין",
+    "סע סע",
+    "כנס בי ",
+    "כנס בי עוד",
+    "עוד ",
+    "עוד יותר ",
+    "עוד יותר טוב ",
+    "ועוד יותר טוב ",
+    "ועוד יותר טוב ",
+    "ועוד יותר טוב ",
+    "ותמיד יהיה לי ",
+    "רק טוב ",
+    "אתה עוד פה ?",
+    "אדיוט",
+    "טיפש",
+    "לך תעבוד ",
+    "זה לא חינם כן ? ",
+    "כל לחיצה הכרטיס עולה",
+    "תמות"
+  ];
+
+  // 1) Listen to the same form submission event
+  document.getElementById("registrationFormElement").addEventListener("submit", function(event) {
+    // We only want to read 'name' from the form data to store in 'userName'.
+    const formData = new FormData(event.target);
+    userName = formData.get("name") || ""; // store the user's name
   });
+
+  // 2) Define the new function for the roast button
+  async function handleRoastClickExtra() {
+    // Increase local counter
+    roastCount++;
+
+    // Call your existing showRoast() to get a new random roast line
+    showRoast();
+
+    // Update the button text by cycling through the roastButtonLabels array
+    const roastBtn = document.getElementById("roastButton");
+    const labelIndex = (roastCount - 1) % roastButtonLabels.length;
+    roastBtn.textContent = roastButtonLabels[labelIndex];
+
+    // If for some reason user didn't fill the form, skip sending to Sheets
+    if (!userName) {
+      console.warn("No userName available yet – not sending to Sheets.");
+      return;
+    }
+
+    // Prepare data to send each time the user clicks the roast button
+    const data = new URLSearchParams();
+    data.append("name", userName);            // e.g. Column B
+    data.append("notes", "עלבון נלחץ");       // e.g. Column E
+    data.append("roastCount", roastCount);    // e.g. Column F
+
+    // Send it to your Google Apps Script
+    try {
+      await fetch("https://script.google.com/macros/s/AKfycbxYw3gK7zW54X-zIEkS3-Mow6LwOrYkrAZmS8ITmC9oVB4mDZ5KMQAG4p9WY7qUc1X1/exec", {
+        method: "POST",
+        body: data
+      });
+      // Silent, no user alert
+    } catch (err) {
+      console.error("Failed to send roast count to Sheets:", err);
+    }
+  }
 </script>
 
+<script>
+
+function showRoast() {
+  const roasts = [
+      "יש לך מבט של מישהו שהחיים חירבנו עליו ואז שלחו לו חשבונית.",
+      "כשאתה מופיע – הציפיות יורדות ביחד עם הווליום.",
+      "באירוע קודם מישהו שאל \"מי זה?\", וענו \"עזוב, אל תתקרב.",
+      "אתה מסוג האנשים שתמונה שלהם על מגנט מקרר מורידה תיאבון.",
+      "אם הייתה רשימת “מי לא להזמין”,היית בכותרת.",
+      "אם תביא איתך עוד מישהו, תוודא שהוא לא כמוך.",
+      "תבוא, תשב בפינה, ואל תעשה רעש",
+      "אתה הבנאדם שהאור נכבה כשהוא נכנס.",
+      "לא חשוב כמה תתאמץ – אף אחד לא מתכוון לדבר איתך שם.",
+      "מי ששלח אותך – לא היה חבר שלך.",
+      "תפסיק לנסות להבין – זה מעבר ליכולת שלך.",
+      "תבוא לבד. ואל תדבר על זה.",
+      "אתה הפרצוף של \"אופס, הזמנתי את הלא נכון\".",
+      "אתה כמו מים בלי מינרלים – טעם של כלום.",
+      "הסיבה היחידה שאתה מוזמן – זה כדי שיהיה עם מי לצחוק עליך.",
+      "אתה כמו פלאפל של יום שישי בצהריים – טעים אבל עושה חרא בלילה.",
+      "אם תבוא, תוודא שיש מישהו שיסביר לך מתי ללכת.",
+      "אתה לא גוש של ביטחון עצמי – אתה גוש חרא.",
+      "יש לך טעם בלבוש של ילד בן 5 שנשאר לבד אצל סבתא.",
+      "תזכור: אין תלבושת שיכולה לחפות על חוסר כריזמה.",
+      "מה שבטוח – יש לך לוק של \"לפחות הוא ניסה\".",
+      "תגיע רק אם אתה נשאר בשירותים – האירוע יודה לך.",
+      "הריח שלך נכנס לחדר 3 שניות לפניך, וכולם מתחרטים שבאו.",
+      "באירועים קודמים – אנשים הלכו רק כי אמרו שאתה בא.",
+      "אתה הבנאדם היחיד שאפילו כרטיס חינם לא מצדיק את ההגעה שלו.",
+      "נרשמת? למה? זה לא סדנת שיקום.",
+      "לא נעים להגיד... אבל נעים כשאתה לא בסביבה.",
+      "עם הריח שלך – אתה הוכחה שאנשים עדיין לא יודעים להתקלח.",
+      "אמא שלך שלחה אותך? שתחזיר אותך הביתה.",
+      "כשאתה נכנס לחדר, כולם עושים כאילו לא שמו לב. ",
+      "רק תנסה לא לגנוב בקבוקים ריקים הביתה.",
+      "אתה לא מבין רמזים. אז קבל ישיר: שב בשקט.",
+      "יש לך לוק של “אני רק באתי לאכול וללכת”.",
+      "אם תספר בדיחה אנחנו נאלץ להפעיל שיר סיום.",
+      "תביא חבר אבל תוודא שהוא נראה כמוך, כדי שנדע להתרחק משניכם ביחד.",
+      "אתה לא מביך. אתה מראה לאחרים איך לא להתנהג.",
+      "אם היה כפתור \"דלג עליך\" – כולם היו לוחצים. כולל אמא שלך.",
+      "אנחנו לא נגיד לך לא לבוא. פשוט נקווה שלא תופיע.",
+      "הרשמתך התקבלה. לצערנו.",
+      "יש לך אנרגיה של טלוויזיה על MUTE",
+      "אל תתאמץ להרשים. זה כבר לא עובד מגיל 30.",
+      "אם היית בן אדם מעניין, היינו מזמינים אותך לשיחה. אבל אתה לא.",
+      "תבוא לאירוע רק אם תבטיח לא לדבר. לא בגלל שאנחנו לא אוהבים אותך. פשוט כי אין לנו כוח אליך.",
+      "אם תצחיק מישהו – זה יהיה נס רפואי.",
+      "תגיע, תשתוק, תיהנה. או רק תשתוק.",
+      "תזכור – פחות אתה, יותר אווירה.",
+      "הבאנו אותך בשביל ההשפלה. שלך.",
+      "אין סלקטור – אבל אם היה, אתה לא עובר.",
+      "אם תביא חבר כמוך אתה קנוס 200 ",
+      "אתה פותח את הארנק רק בשביל לאוורר את האבק.",
+      "יא דביל עקום, אם היית דמות בספר – היו מוחקים אותך בעריכה.",
+      "יא זין עם עיניים",
+      "יא בת של שרמוטה עצובה",
+      "יא פדיחה גנטית",
+      "בטח יש לך סמסונג אה ? ",
+      "יא מוצץ לקוף שמכר את הנשמה בשביל בננה",
+      "יא מוצץ לעז שנדרסה רגשית בטיול שנתי",
+      "יא חולה על ללטף חתולים",
+      "יא חולה על להידבק ממחלות של גמלים בטאבה",
+      "יא מת על להצטלם ליד אוטו שלא שלך"
+  ];
+
+  const randomRoast = roasts[Math.floor(Math.random() * roasts.length)];
+  document.getElementById("roastLine").textContent = randomRoast;
+}
+</script>
 </body>
 </html>
